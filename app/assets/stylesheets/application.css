@@ -11,3 +11,9 @@
  *= require_self
  *= require_tree .
  */
+
+h1 {font-family:arial;
+	font-size: 24pt;
+	font-weight: bold;
+	color:#F00 ;
+}
