@@ -1,0 +1,4 @@
+TODO
+
+add constraints to file upload or resize to thumbnail (or find a gem to use)
+simplify entries

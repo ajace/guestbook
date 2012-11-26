@@ -1,6 +1,8 @@
 class Person < ActiveRecord::Base
-  attr_accessible :birthday, :body_temperature, :can_send_email, :country,
-:description, :email, :favorite_time, :graduation_year, :name, :price, :secret
+	attr_accessible :birthday, :body_temperature, :can_send_email, :country,
+	:description, :email, :favorite_time, :graduation_year, :name, :price, :photo
+
+	after_save :store_photo
 
 	validates_presence_of :name,
 		:message => "must be provided. I won't tell anyone else."
@@ -18,9 +20,7 @@ class Person < ActiveRecord::Base
 	validate :description_length_words
 	
 	def description_length_words
-		# only do this validation if description is provided
 		unless self.description.blank? then
-			# simple way of calculating words: split the text on whitespace
 			num_words = self.description.split.length
 			if num_words < 5 then
 				self.errors.add(:description, "must be at least 5 words long")
@@ -30,4 +30,36 @@ class Person < ActiveRecord::Base
 		end
 	end
 
+  PHOTO_STORE = File.join Rails.root, 'public', 'photo_store'
+  
+  def photo=(file_data)
+    unless file_data.blank?
+      @file_data = file_data
+      self.extension = file_data.original_filename.split('.').last.downcase
+    end
+  end
+  
+  def has_photo?
+    File.exists? photo_filename
+  end
+  
+  def photo_path
+    "/photo_store/#{id}.#{extension}"
+  end
+  
+  def photo_filename
+    File.join PHOTO_STORE, "#{id}.#{extension}"
+  end
+   
+  private
+  def store_photo
+    if @file_data
+      FileUtils.mkdir_p PHOTO_STORE
+      File.open(photo_filename, 'wb') do |f|
+        f.write(@file_data.read)
+      end
+      
+      @file_data = nil
+    end
+  end
 end

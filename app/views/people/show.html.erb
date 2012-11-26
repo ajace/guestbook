@@ -1,6 +1,15 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+	<b>Photo:</b>
+	<% if @person.has_photo? %>
+		<%= image_tag @person.photo_path %>
+	<% else %>
+		No photo.
+	<% end %>
+</p>
+
+<p>
   <b>Name:</b>
   <%= @person.name %>
 </p>
