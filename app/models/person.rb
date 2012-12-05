@@ -18,6 +18,8 @@ class Person < ActiveRecord::Base
 		:message => "belongs to an existing user. Please sign-in."
 
 	validate :description_length_words
+
+	has_many :posts
 	
 	def description_length_words
 		unless self.description.blank? then

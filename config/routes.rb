@@ -1,7 +1,11 @@
 Guestbook::Application.routes.draw do
-  resources :people
+  resources :posts
 
-  root :to => 'people#index'
+  resources :people do
+    resources :posts
+  end
+
+  root :to => 'people#index'  # TODO, create sign in page to track people
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
