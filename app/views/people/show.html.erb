@@ -14,11 +14,13 @@
   <%= @person.name %>
 </p>
 
-<p>
-  <b>Country:</b>
-  <%= @person.country %>
-</p>
+TODO: iterate and show all the posts of a person
+<b>Posts:</b>
+<% @person.posts.each do |post| %>
+<p><%= post.description %></p>
+<% end %>
 
 
+<%= link_to 'New Post', new_person_post_path(@person) %>
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'Back', people_path %>

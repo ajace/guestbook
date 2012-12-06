@@ -24,7 +24,8 @@ class PostsController < ApplicationController
   # GET /posts/new
   # GET /posts/new.json
   def new
-    @post = Post.new
+    @person = Person.find(params[:person_id])
+    @post = Post.new  
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,13 +35,15 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @person = Person.find(params[:person_id])
     @post = Post.find(params[:id])
   end
 
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(params[:post])
+    @person = Person.find(params[:person_id])
+    @post = @person.posts.new(params[:post])
 
     respond_to do |format|
       if @post.save
